@@ -1,0 +1,65 @@
+[build]
+  command = "python tests_pseo.py && python build.py && python validate_site.py"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[redirects]]
+  from = "/safe24-unmanned-store/*"
+  to = "/unmanned-store/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/installation-cases/*"
+  to = "/installation-locations/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/use-cases/*"
+  to = "/installation-locations/:splat"
+  status = 301
+
+# Static assets are cached; leave room for visual updates without immutable filenames.
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/site.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/assets/site.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Only the production domain is intended for indexing.
+[context.deploy-preview]
+  [[context.deploy-preview.headers]]
+    for = "/*"
+    [context.deploy-preview.headers.values]
+      X-Robots-Tag = "noindex, nofollow"
+
+[context.branch-deploy]
+  [[context.branch-deploy.headers]]
+    for = "/*"
+    [context.branch-deploy.headers.values]
+      X-Robots-Tag = "noindex, nofollow"

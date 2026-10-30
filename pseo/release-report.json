@@ -1,0 +1,28 @@
+{
+  "published_count": 0,
+  "approved_pages": [],
+  "registry": [
+    {
+      "id": "OFFICE-001",
+      "slug": "office-vending-machine",
+      "status": "draft",
+      "published": false,
+      "reason": "비공개 초안 / 승인 전"
+    },
+    {
+      "id": "GYM-001",
+      "slug": "gym-vending-machine",
+      "status": "idea",
+      "published": false,
+      "reason": "비공개 초안 / 승인 전"
+    },
+    {
+      "id": "MILK-001",
+      "slug": "frozen-mealkit-vending-machine",
+      "status": "idea",
+      "published": false,
+      "reason": "비공개 초안 / 승인 전"
+    }
+  ],
+  "note": "초안과 검토중 콘텐츠는 공개 HTML 및 sitemap/rss에 포함되지 않습니다."
+}

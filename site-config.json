@@ -1,0 +1,19 @@
+{
+  "site_name": "자판기플랜",
+  "site_url": "https://japangi-plan.netlify.app/",
+  "operator_name": "다브인터네셔널",
+  "operator_contact": "1811-9884",
+  "operator_address": "서울·수도권 상담 접수 후 안내",
+  "partner_name": "MTS해원",
+  "partner_retention": "",
+  "operator_retention": "",
+  "form_provider": "netlify_function_google_sheets",
+  "price_verified": false,
+  "naver_site_verification": "",
+  "google_site_verification": "",
+  "provider_name": "다브인터네셔널",
+  "manufacturer_name": "MTS해원",
+  "inquiry_phone": "1811-9884",
+  "notification_provider": "google_apps_script_mailapp",
+  "privacy_consent_version": "2026-10-draft-review-required"
+}

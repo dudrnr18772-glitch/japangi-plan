@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://japangi-plan.netlify.app/sitemap.xml
