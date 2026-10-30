@@ -33,7 +33,8 @@ def section_title(kicker,title,subtitle=''):
     return f'<div class="section-heading"><span class="eyebrow">{escape(kicker)}</span><h2>{title}</h2>{f"<p>{subtitle}</p>" if subtitle else ""}</div>'
 def card(title,content,href=None,tag=None):
     foot=f'<a class="text-link" href="{href}">자세히 보기 <span aria-hidden="true">↗</span></a>' if href else ''
-    return f'<article class="info-card">{f"<span class=\"tiny-label\">{tag}</span>" if tag else ""}<h3>{title}</h3><p>{content}</p>{foot}</article>'
+    tag_html=f'<span class="tiny-label">{tag}</span>' if tag else ''
+    return f'<article class="info-card">{tag_html}<h3>{title}</h3><p>{content}</p>{foot}</article>'
 def details(qa):return '<div class="faq-list">'+''.join(f'<details><summary>{q}</summary><div class="faq-answer"><p>{a}</p></div></details>' for q,a in qa)+'</div>'
 def cta(root,product=''):
     href=root+'contact/'+('?product='+product if product else '')
