@@ -16,7 +16,8 @@
 - [x] 새 구글 스프레드시트 생성 및 `상담접수` 헤더 구성
 - [ ] 스프레드시트에 Apps Script 연결, `testSetup` 메일 도착 및 1년 보유기간 정리 트리거 생성 확인
 - [x] Netlify `LEAD_WEBHOOK_SECRET` 서버 환경변수 등록 (비밀키는 저장소·HTML에 비공개)
-- [ ] Apps Script `/exec` 주소를 받아 Netlify `GOOGLE_SHEET_WEBHOOK_URL` 등록 후 재배포
+- [x] Apps Script `/exec` 주소를 받아 Netlify `GOOGLE_SHEET_WEBHOOK_URL` 등록
+- [ ] 변경된 Netlify 환경변수 적용을 위한 재배포 및 테스트 확인
 - [x] `site-config.json`의 `inquiry_enabled=true`로 변경하여 테스트 UI 배포
 - [ ] Google Apps Script 배포, Netlify 환경변수 입력 후 실제 상담 저장/메일 수신 통합 테스트
 - [ ] 본인 정보로 테스트 상담 1건 제출 → 시트 행 추가 및 Gmail 메일 수신 확인
