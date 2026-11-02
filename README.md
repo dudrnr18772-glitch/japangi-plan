@@ -45,6 +45,6 @@ Netlify Git 연결을 권장합니다. GitHub에 승인한 자료와 코드를 �
 
 ## 공개 전 필수 점검
 
-실제 사업자 법적 명칭, 연락처, 개인정보 처리 및 제3자 제공 계약, 보유기간, 설치 사례 사진 공개권한을 확정하고, Netlify 환경변수와 Apps Script의 Sheets/Gmail 계정 연결 및 테스트가 필요합니다. `site-config.json`의 운영사·제휴사 보유기간은 각각 1년으로 설정되었고 이메일은 선택 항목입니다. 실제 Google Sheets·Gmail 통합 테스트 전에는 `inquiry_enabled=false`로 상담 접수가 비활성화됩니다. Apps Script `testSetup`을 최초 실행하면 1년 초과 상담 행을 정리하는 일일 트리거가 설치됩니다.
+실제 사업자 법적 명칭, 연락처, 개인정보 처리 및 제3자 제공 계약, 보유기간, 설치 사례 사진 공개권한을 확정하고, Netlify 환경변수와 Apps Script의 Sheets/Gmail 계정 연결 및 테스트가 필요합니다. `site-config.json`의 운영사·제휴사 보유기간은 각각 1년으로 설정되었고 이메일은 선택 항목입니다. 테스트를 위해 `inquiry_enabled=true`로 상담 폼 입력·제출 버튼을 활성화했습니다. 다만 Netlify 환경변수가 설정되지 않으면 서버는 503을 반환하고 상담 정보가 저장되지 않습니다. Apps Script `testSetup`을 최초 실행하면 1년 초과 상담 행을 정리하는 일일 트리거가 설치됩니다.
 
-Netlify 도메인에는 사이트와 `submit-lead` Function이 배포되어 있습니다. 검색 색인 상태는 별도 확인이 필요하며 상담 접수는 Google 연동 및 테스트 완료 후 활성화합니다.
+Netlify 도메인에는 사이트와 `submit-lead` Function이 배포되어 있습니다. 검색 색인 상태는 별도 확인이 필요하며 실제 상담 저장은 Google 연동 및 테스트 완료 후 정상 작동합니다.

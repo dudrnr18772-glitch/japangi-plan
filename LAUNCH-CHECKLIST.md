@@ -11,12 +11,13 @@
 - [x] Google Sheets 행 저장 및 Gmail 알림용 Apps Script 코드 추가
 - [x] 이메일 선택 입력 및 프런트·Netlify Function·Apps Script 검증 일치
 - [x] 운영사 및 제휴사 개인정보 보유기간을 1년으로 설정
-- [x] 외부 연동 검증 전 상담 제출 잠금(`inquiry_enabled=false`)
+- [x] 상담 UI 제출 허용(`inquiry_enabled=true`) — 수동 테스트 목적; 서버 환경변수 미등록 시 503, 실접수 불가
 - [x] 서버에서 필수값/동의/형식 검사하는 Netlify Function 구현
 - [x] 새 구글 스프레드시트 생성 및 `상담접수` 헤더 구성
 - [ ] 스프레드시트에 Apps Script 연결, `testSetup` 메일 도착 및 1년 보유기간 정리 트리거 생성 확인
 - [ ] Netlify 환경변수 지정 후 재배포
-- [ ] 통합 테스트 통과 후 `site-config.json`의 `inquiry_enabled=true`로 변경하여 재배포
+- [x] `site-config.json`의 `inquiry_enabled=true`로 변경하여 테스트 UI 배포
+- [ ] Google Apps Script 배포, Netlify 환경변수 입력 후 실제 상담 저장/메일 수신 통합 테스트
 - [ ] 본인 정보로 테스트 상담 1건 제출 → 시트 행 추가 및 Gmail 메일 수신 확인
 - [ ] 스마트폰 Gmail 앱에서 메일 푸시 알림 표시 확인
 

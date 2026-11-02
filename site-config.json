@@ -16,5 +16,5 @@
   "inquiry_phone": "1811-9884",
   "notification_provider": "google_apps_script_mailapp",
   "privacy_consent_version": "2026-11-v1",
-  "inquiry_enabled": false
+  "inquiry_enabled": true
 }
