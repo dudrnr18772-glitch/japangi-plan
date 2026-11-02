@@ -1,5 +1,5 @@
 [build]
-  command = "python tests_pseo.py && python build.py && python validate_site.py"
+  command = "node tests_lead.js && python tests_pseo.py && python build.py && python validate_site.py"
   publish = "dist"
 
 [functions]

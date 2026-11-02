@@ -26,9 +26,9 @@ exports.handler = async function (event) {
   // Honeypot: avoid forwarding robot-created personal data into the Sheet.
   if (data.website_url) return response(200,{ok:true,id:'접수 완료'});
   const fields = [['company',80],['representative',40],['phone',25],['email',120],['address',200]];
-  if (fields.some(([k,m]) => !valid(data[k],m)) || !valid(data.message || '',1000,false))
+  if (fields.some(([k,m]) => !valid(k === 'email' ? (data[k] ?? '') : data[k],m,k !== 'email')) || !valid(data.message || '',1000,false))
     return response(400,{ok:false,error:'필수 항목을 확인해 주세요.'});
-  if (!/^\S+@\S+\.\S+$/.test(data.email) || !/^[0-9()+\-\s]{8,25}$/.test(data.phone))
+  if ((data.email && !/^\S+@\S+\.\S+$/.test(data.email)) || !/^[0-9()+\-\s]{8,25}$/.test(data.phone))
     return response(400,{ok:false,error:'이메일 또는 연락처 형식을 확인해 주세요.'});
   if (!ALLOWED_PRODUCTS.has(data.product) || !ALLOWED_QUANTITIES.has(data.quantity || '미정') || !ALLOWED_TIMELINES.has(data.timeline || '미정'))
     return response(400,{ok:false,error:'제품 또는 선택 항목을 확인해 주세요.'});

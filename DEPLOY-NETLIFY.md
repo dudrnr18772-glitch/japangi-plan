@@ -5,7 +5,7 @@
 **사이트맵:** https://japangi-plan.netlify.app/sitemap.xml
 **robots.txt:** https://japangi-plan.netlify.app/robots.txt
 
-주의: 이 도메인은 빌드 기준값으로 설정됐지만 Netlify 프로젝트 이름을 생성·예약한 것은 아닙니다. `japangi-plan` 사이트명을 생성할 수 있는지 Netlify 대시보드에서 확인해야 합니다.
+현재 `japangi-plan` Netlify 프로젝트가 생성되어 있으며 GitHub `main`에서 배포되고 있습니다. 상담 접수는 Google 연동 및 실제 테스트 전까지 비활성화합니다.
 
 ## 원본 프로젝트 ZIP을 GitHub에 업로드하는 경우
 1. 프로젝트 루트의 `build.py`, `seo_enhancements.py`, `netlify.toml`, `assets/`, `netlify/functions/`, `apps-script/` 등 모든 파일을 업로드합니다.

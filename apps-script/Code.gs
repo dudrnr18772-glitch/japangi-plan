@@ -25,7 +25,7 @@ function doPost(e) {
     const d = JSON.parse(e.postData.contents || '{}');
     if (typeof d.secret !== 'string' || d.secret !== props.getProperty('LEAD_SECRET'))
       return respond_({ok:false,code:'unauthorized'});
-    const required = ['company','representative','phone','email','address','product','consentVersion'];
+    const required = ['company','representative','phone','address','product','consentVersion'];
     if (required.some(k => typeof d[k] !== 'string' || !d[k].trim()))
       return respond_({ok:false,code:'bad_fields'});
     if (d.collect_agree !== 'yes' || d.share_agree !== 'yes' || PRODUCTS.indexOf(d.product) < 0)

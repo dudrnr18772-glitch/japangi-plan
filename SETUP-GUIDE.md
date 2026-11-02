@@ -1,10 +1,10 @@
 # 설치 안내 — 홈페이지 상담 신청 → 구글 스프레드시트 → Gmail 알림
 
-**현재 상태: 소스 구현 및 로컬 테스트 완료, 실제 구글/Netlify 계정 연동 전.**
+**현재 상태: Netlify Function 배포 확인, Google Sheets·Gmail 실계정 연동 및 상담 접수 테스트 전.** 이메일은 선택 입력이며 운영사·제휴사 보유기간은 1년으로 설정되어 있습니다.
 
 ## 1. 데이터 흐름
 
-1. 홈페이지 `/contact/`에서 고객이 정보를 입력하고 개인정보 필수 동의 후 제출합니다.
+1. 홈페이지 `/contact/`에서 고객이 정보를 입력하고 개인정보 필수 동의 후 제출합니다. 이메일은 선택 항목입니다.
 2. Netlify Function `/.netlify/functions/submit-lead`에서 값을 확인합니다.
 3. 서버의 비밀키와 함께 Google Apps Script 웹 앱으로 전달합니다.
 4. Apps Script가 Google Sheets의 `상담접수` 탭에 새 행을 작성합니다.
@@ -24,7 +24,7 @@
 - `partner_retention`: 제휴업체의 개인정보 보유기간
 - `site_url`: 실제로 공개할 도메인 (예: `https://your-domain.example/`)
 
-개인정보 처리 정보가 비어 있으면 상담 제출 버튼은 비활성화됩니다. 실제 개인정보 제공 경로에 MTS해원이 포함되는 경우 고지·동의의 제공받는 자 항목을 그에 맞게 검토해야 합니다.
+개인정보 처리 정보가 비어 있거나 `inquiry_enabled=false`이면 상담 제출 버튼은 비활성화됩니다. 실계정 연결과 테스트 완료 후에만 `site-config.json`의 `inquiry_enabled`를 `true`로 변경해 재배포합니다. 실제 개인정보 제공 경로에 MTS해원이 포함되는 경우 고지·동의의 제공받는 자 항목을 그에 맞게 검토해야 합니다.
 
 ## 3. Google Sheets 및 Apps Script 준비
 
@@ -73,7 +73,8 @@
 | `LEAD_WEBHOOK_SECRET` | Apps Script의 `LEAD_SECRET`과 동일한 문자열 |
 
 5. 환경변수 설정 후 Netlify에서 다시 배포합니다.
-6. 실제로 `/contact/`에 테스트 정보를 입력하고 제출하면 **시트에 행이 추가된 뒤 새 Gmail 알림이 발송**됩니다.
+6. 비밀키/시트 연결 및 개인정보 안내를 점검한 다음 `site-config.json`의 `inquiry_enabled`를 `true`로 변경하고 재배포합니다.
+7. 실제로 `/contact/`에 테스트 정보를 입력하고 제출하면 **시트에 행이 추가된 뒤 새 Gmail 알림이 발송**됩니다.
 
 ## 6. 휴대폰 Gmail 알림
 
@@ -87,7 +88,7 @@ Gmail이 메시지를 받은 뒤 휴대폰에 알림을 표시하는 시점은 �
 
 ## 7. 문제 해결
 
-- **제출 버튼 비활성화:** `site-config.json`의 운영사 정보·보유기간 미입력 상태입니다.
+- **제출 버튼 비활성화:** `site-config.json`에서 `inquiry_enabled=false`이거나 운영사 정보·보유기간이 비어 있습니다.
 - **503 응답:** Netlify의 두 환경변수 중 하나가 누락되었을 가능성이 큽니다.
 - **502 응답:** Apps Script URL, 스크립트 배포 권한, `LEAD_SECRET`, 일일 서비스 할당량 및 실행 로그를 확인하세요.
 - **시트에 저장되었지만 Gmail 알림 없음:** Apps Script의 `NOTIFY_EMAIL`, 최초 `testSetup` 권한 승인, MailApp 일일 발송 한도와 실행 로그를 확인합니다.

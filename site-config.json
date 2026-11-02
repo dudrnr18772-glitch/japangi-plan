@@ -5,8 +5,8 @@
   "operator_contact": "1811-9884",
   "operator_address": "서울·수도권 상담 접수 후 안내",
   "partner_name": "MTS해원",
-  "partner_retention": "",
-  "operator_retention": "",
+  "partner_retention": "개인정보 제공일로부터 1년",
+  "operator_retention": "상담 접수일로부터 1년",
   "form_provider": "netlify_function_google_sheets",
   "price_verified": false,
   "naver_site_verification": "",
@@ -15,5 +15,6 @@
   "manufacturer_name": "MTS해원",
   "inquiry_phone": "1811-9884",
   "notification_provider": "google_apps_script_mailapp",
-  "privacy_consent_version": "2026-10-draft-review-required"
+  "privacy_consent_version": "2026-11-v1",
+  "inquiry_enabled": false
 }

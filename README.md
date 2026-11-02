@@ -45,6 +45,6 @@ Netlify Git 연결을 권장합니다. GitHub에 승인한 자료와 코드를 �
 
 ## 공개 전 필수 점검
 
-실제 사업자 법적 명칭, 연락처, 개인정보 처리 및 제3자 제공 계약, 보유기간, 설치 사례 사진 공개권한을 확정하고, Netlify 환경변수와 Apps Script의 Sheets/Gmail 계정 연결 및 테스트가 필요합니다. `site-config.json` 보유기간 값은 의도적으로 공란이므로 상담 접수는 현재 비활성화됩니다.
+실제 사업자 법적 명칭, 연락처, 개인정보 처리 및 제3자 제공 계약, 보유기간, 설치 사례 사진 공개권한을 확정하고, Netlify 환경변수와 Apps Script의 Sheets/Gmail 계정 연결 및 테스트가 필요합니다. `site-config.json`의 운영사·제휴사 보유기간은 각각 1년으로 설정되었고 이메일은 선택 항목입니다. 실제 Google Sheets·Gmail 통합 테스트 전에는 `inquiry_enabled=false`로 상담 접수가 비활성화됩니다.
 
-현재 실제 Netlify 도메인 배포나 검색 색인은 완료되지 않았습니다.
+Netlify 도메인에는 사이트와 `submit-lead` Function이 배포되어 있습니다. 검색 색인 상태는 별도 확인이 필요하며 상담 접수는 Google 연동 및 테스트 완료 후 활성화합니다.
