@@ -1,6 +1,6 @@
 # 설치 안내 — 홈페이지 상담 신청 → 구글 스프레드시트 → Gmail 알림
 
-**현재 상태: Netlify Function 배포 확인, Google Sheets·Gmail 실계정 연동 및 상담 접수 테스트 전.** 이메일은 선택 입력이며 운영사·제휴사 보유기간은 1년으로 설정되어 있습니다.
+**현재 상태: Netlify Function 배포, Google Sheet 생성, Netlify LEAD_WEBHOOK_SECRET 등록 완료. Apps Script 권한 승인·웹 앱 배포·Netlify GOOGLE_SHEET_WEBHOOK_URL 등록 및 실접수 테스트 전.** 이메일은 선택 입력이며 운영사·제휴사 보유기간은 1년으로 설정되어 있습니다.
 
 ## 1. 데이터 흐름
 
@@ -20,16 +20,16 @@
 - `operator_name`: 개인정보를 수집하는 운영 주체의 **정확한 법적 상호**
 - `operator_contact`: 이용자 권리 행사 및 상담 연락처
 - `operator_retention`: 운영사가 상담 정보를 보유하는 기간(운영 실태와 일치해야 함)
-- `partner_name`: 정보를 실제 제공받는 제휴업체(현재 임시 값: 다브인터네셔널)
+- `partner_name`: 정보를 실제 제공받는 제휴업체(현재 사이트 설정: MTS해원)
 - `partner_retention`: 제휴업체의 개인정보 보유기간
 - `site_url`: 실제로 공개할 도메인 (예: `https://your-domain.example/`)
 
-개인정보 처리 정보가 비어 있거나 `inquiry_enabled=false`이면 상담 제출 버튼은 비활성화됩니다. 실계정 연결과 테스트 완료 후에만 `site-config.json`의 `inquiry_enabled`를 `true`로 변경해 재배포합니다. 실제 개인정보 제공 경로에 MTS해원이 포함되는 경우 고지·동의의 제공받는 자 항목을 그에 맞게 검토해야 합니다.
+현재 `inquiry_enabled=true`로 상담 제출 UI가 활성화되어 있습니다. 연결 전에는 Netlify Function이 503을 반환하여 정상 접수되지 않으므로 실제 고객 테스트는 하지 마세요. 실제 개인정보 제공 경로에 MTS해원이 포함되는 경우 고지·동의의 제공받는 자 항목을 그에 맞게 검토해야 합니다.
 
 ## 3. Google Sheets 및 Apps Script 준비
 
-1. Google Sheets에서 새 파일을 만들고 이름을 `스마트자판기 구매센터 - 상담접수 관리`로 설정합니다.
-2. 시트 주소 `https://docs.google.com/spreadsheets/d/<문서ID>/edit`에서 문서 ID를 복사합니다.
+1. 이미 생성된 `자판기플랜 - 상담접수 관리` Google Sheets를 엽니다. 새 시트를 다시 만들지 않습니다.
+2. 시트 주소 `https://docs.google.com/spreadsheets/d/<문서ID>/edit`에서 문서 ID를 확인합니다.
 3. **확장 프로그램 → Apps Script**로 이동합니다.
 4. 기본 코드를 모두 지우고 이 프로젝트의 `apps-script/Code.gs` 전체를 붙여넣습니다.
 5. **프로젝트 설정 → 스크립트 속성**에서 다음 세 값을 추가합니다.
@@ -65,7 +65,7 @@
 1. 원본 프로젝트의 모든 파일을 GitHub 저장소에 업로드합니다.
 2. Netlify에서 GitHub 저장소를 연결합니다.
 3. 빌드 명령: `python build.py`, 게시 폴더: `dist`, 서버 함수 폴더: `netlify/functions` (`netlify.toml`에 기재되어 있습니다).
-4. Netlify → **Site configuration → Environment variables**에서 다음 항목을 추가합니다.
+4. Netlify → **Site configuration → Environment variables**에서 아래 두 변수가 모두 있는지 확인합니다. `LEAD_WEBHOOK_SECRET`은 이미 등록되어 있으니 중복 생성하지 마세요.
 
 | 키 | 값 |
 |---|---|
@@ -73,7 +73,7 @@
 | `LEAD_WEBHOOK_SECRET` | Apps Script의 `LEAD_SECRET`과 동일한 문자열 |
 
 5. 환경변수 설정 후 Netlify에서 다시 배포합니다.
-6. 비밀키/시트 연결 및 개인정보 안내를 점검한 다음 `site-config.json`의 `inquiry_enabled`를 `true`로 변경하고 재배포합니다.
+6. `site-config.json`의 `inquiry_enabled`는 이미 `true`입니다. 연결 후 새로 재배포하여 실제 접수를 확인합니다.
 7. 실제로 `/contact/`에 테스트 정보를 입력하고 제출하면 **시트에 행이 추가된 뒤 새 Gmail 알림이 발송**됩니다.
 
 ## 6. 휴대폰 Gmail 알림

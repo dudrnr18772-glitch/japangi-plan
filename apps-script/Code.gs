@@ -1,5 +1,5 @@
 /**
- * Google Sheets webhook for 스마트자판기 구매센터.
+ * Google Sheets webhook for 자판기플랜.
  * Deploy: Google Sheets > Extensions > Apps Script > Deploy > New deployment > Web app
  * Execute as: Me; Who has access: Anyone. Never put the shared secret in website HTML.
  * Script Properties: SHEET_ID, LEAD_SECRET, NOTIFY_EMAIL.
@@ -102,7 +102,7 @@ function sendEmailNotification_(id, product) {
     const link = sheetId ? 'https://docs.google.com/spreadsheets/d/' + sheetId + '/edit' : '';
     MailApp.sendEmail({
       to: recipient,
-      subject: '[스마트자판기 구매센터] 신규 상담 접수',
+      subject: '[자판기플랜] 신규 상담 접수',
       body: [
         '새로운 자판기 구매·설치 상담이 접수되었습니다.',
         '',
@@ -115,7 +115,7 @@ function sendEmailNotification_(id, product) {
         '',
         '이 메일은 상담 접수 알림입니다. 고객 개인정보는 메일 본문에 포함하지 않습니다.'
       ].join('\n'),
-      name: '스마트자판기 구매센터'
+      name: '자판기플랜'
     });
     return true;
   } catch (error) {
