@@ -1,0 +1,58 @@
+name: Consultation form integration smoke test
+
+on:
+  push:
+    paths:
+      - '.github/workflows/lead-integration-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Submit synthetic consultation and verify server response
+        shell: bash
+        env:
+          LEAD_ENDPOINT: https://japangi-plan.netlify.app/.netlify/functions/submit-lead
+        run: |
+          set -euo pipefail
+          payload=$(jq -nc --arg c "자동연동테스트-${GITHUB_RUN_ID}" '{
+            company: $c,
+            representative: "가상담당자",
+            phone: "000-0000-0000",
+            email: "",
+            address: "테스트용 가상 주소",
+            product: "멀티자판기",
+            quantity: "미정",
+            timeline: "미정",
+            message: "실제 고객 정보가 아닌 연동 테스트입니다.",
+            sourcePage: "https://japangi-plan.netlify.app/contact/",
+            utmSource: "github",
+            utmMedium: "automation-test",
+            utmCampaign: "lead-setup",
+            collect_agree: "yes",
+            share_agree: "yes",
+            consentVersion: "2026-11-v1"
+          }')
+          status=""
+          for attempt in $(seq 1 12); do
+            status=$(curl --silent --show-error --location --max-time 35 \
+              --output /tmp/lead-response.json --write-out '%{http_code}' \
+              --header 'Content-Type: application/json' \
+              --data "$payload" "$LEAD_ENDPOINT")
+            echo "Attempt $attempt: HTTP $status"
+            if [ "$status" != "503" ]; then break; fi
+            sleep 8
+          done
+          if [ "$status" != "200" ]; then
+            echo "Smoke test failed; response:"
+            jq -c '{ok,error,id}' /tmp/lead-response.json || true
+            exit 1
+          fi
+          jq -e '.ok == true and ((.id | type) == "string") and (.id | length > 0)' /tmp/lead-response.json >/dev/null
+          echo "PASS: lead API accepted a synthetic submission and returned a receipt ID."
+          echo "Check Google Sheet and Gmail independently to verify downstream delivery."
