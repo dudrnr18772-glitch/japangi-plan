@@ -4,6 +4,7 @@
  * Execute as: Me; Who has access: Anyone. Never put the shared secret in website HTML.
  * Script Properties: SHEET_ID, LEAD_SECRET, NOTIFY_EMAIL.
  * New submissions are saved first, then an email alert is sent with MailApp.
+ * Records older than one calendar year are removed by a daily time-driven trigger.
  */
 const SHEET_NAME = '상담접수';
 const HEADERS = [
@@ -122,6 +123,30 @@ function sendEmailNotification_(id, product) {
     return false;
   }
 }
+/** Remove rows whose receipt timestamp is older than one calendar year.
+ * Keep the header row; the trigger is installed from testSetup().
+ */
+function purgeExpiredLeads() {
+  const id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+  if (!id) throw new Error('SHEET_ID 설정 필요');
+  const sheet = SpreadsheetApp.openById(id).getSheetByName(SHEET_NAME);
+  if (!sheet || sheet.getLastRow() < 2) return;
+  const cutoff = new Date();
+  cutoff.setFullYear(cutoff.getFullYear() - 1);
+  const dates = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
+  for (let i = dates.length - 1; i >= 0; i--) {
+    const d = dates[i][0];
+    if (d instanceof Date && !isNaN(d.getTime()) && d.getTime() < cutoff.getTime()) {
+      sheet.deleteRow(i + 2);
+    }
+  }
+}
+
+function installRetentionTrigger_() {
+  const found = ScriptApp.getProjectTriggers().some(t => t.getHandlerFunction() === 'purgeExpiredLeads');
+  if (!found) ScriptApp.newTrigger('purgeExpiredLeads').timeBased().everyDays(1).create();
+}
+
 function respond_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
@@ -132,5 +157,11 @@ function testSetup() {
   if (!props.getProperty('SHEET_ID') || !props.getProperty('LEAD_SECRET') || !props.getProperty('NOTIFY_EMAIL')) throw new Error('SHEET_ID / LEAD_SECRET / NOTIFY_EMAIL 설정 필요');
   const sheet=ensureSheet_(props.getProperty('SHEET_ID'));
   Logger.log('Sheet ready: '+sheet.getName());
-  Logger.log('Gmail test notification sent: '+sendEmailNotification_('TEST-SETUP','연동 테스트'));
+  installRetentionTrigger_();
+  purgeExpiredLeads();
+  if (!sendEmailNotification_('TEST-SETUP','연동 테스트')) {
+    throw new Error('Gmail 테스트 메일 발송 실패: NOTIFY_EMAIL, 권한 및 MailApp 발송 한도 확인');
+  }
+  Logger.log('Gmail test notification sent: true');
+  Logger.log('One-year retention cleanup trigger installed');
 }
